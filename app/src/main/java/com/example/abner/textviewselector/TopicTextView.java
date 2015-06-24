@@ -87,7 +87,9 @@ public class TopicTextView extends TextView {
             }
         }
     };
-
+    private boolean isMove = false;
+    private float lastX;
+    private float lastY;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean result = super.onTouchEvent(event);
@@ -96,6 +98,18 @@ public class TopicTextView extends TextView {
 
         int x = (int) event.getX();
         int y = (int) event.getY();
+        if (action == MotionEvent.ACTION_DOWN) {
+            lastX = event.getX();
+            lastY = event.getY();
+            isMove = false;
+        } else if (action == MotionEvent.ACTION_MOVE) {
+            float distanceX = Math.abs(lastX - event.getX());
+            float distanceY = Math.abs(lastY - event.getY());
+            if (distanceX > 0.5f || distanceY > 0.5f) {
+                isMove = true;
+                return result;
+            }
+        }
 
         x -= getTotalPaddingLeft();
         y -= getTotalPaddingTop();
@@ -137,27 +151,25 @@ public class TopicTextView extends TextView {
                 mStart = -1;
                 mEnd = -1;
             }
-            if(action == MotionEvent.ACTION_DOWN){
+            if (action == MotionEvent.ACTION_DOWN) {
                 setBackgroundColor(Color.GRAY);
-                Log.d("click", " action down :" + System.currentTimeMillis());
                 //开始计数
                 leftTime = 5;
                 handler.post(countDownRunnable);
                 return true;
-            }else if(action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL){
+            } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
                 setBackgroundColor(Color.TRANSPARENT);
-                Log.d("click", " action up cancel :" + System.currentTimeMillis());
-                if(leftTime > -1) {
+                //如果没有调用长按 调用点击整个的监听
+                if (leftTime > -1) {
                     leftTime = 10;
                     handler.removeCallbacks(countDownRunnable);//移除统计
-                    if (listener != null) {
+                    if (listener != null && !isMove) {
                         listener.onBlankClick(this);
+                        Log.d("IndexFragment", "onBlankClick");
                     }
                 }
             }
             Selection.removeSelection(buffer);
-            //调用点击整个的监听
-
             return false;
         }
     }
