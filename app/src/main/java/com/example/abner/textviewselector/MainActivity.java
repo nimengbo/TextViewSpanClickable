@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 
 public class MainActivity extends Activity {
@@ -50,7 +52,7 @@ public class MainActivity extends Activity {
         CommentTextView textView1 = (CommentTextView) findViewById(R.id.hello1);
         CommentTextView textView2 = (CommentTextView) findViewById(R.id.hello2);
         TopicTextView textView3 = (TopicTextView) findViewById(R.id.hello3);
-        TextView textView4 = (TextView) findViewById(R.id.hello4);
+        final TextView textView4 = (TextView) findViewById(R.id.hello4);
         textView1.setReply(commentList.get(0));
         textView2.setReply(commentList.get(1));
         textView2.setListener(new TextBlankClickListener() {
@@ -77,5 +79,12 @@ public class MainActivity extends Activity {
             }
         });
 
+        android.os.Handler handler = new android.os.Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                textView4.setVisibility(View.GONE);
+            }
+        },1000);
     }
 }

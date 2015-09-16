@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -51,7 +51,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black_666666"
+        android:layout_below="@id/hello3"
         android:textSize="13sp"
+        android:text="12312312312312"
         />
+    <TextView
+        android:layout_below="@id/hello4"
+        android:layout_alignLeft="@id/hello4"
+        android:text="adasd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-</LinearLayout>
+</RelativeLayout>
