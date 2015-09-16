@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -10,7 +10,7 @@
               tools:context=".MainActivity">
 
     <com.example.abner.textviewselector.PraiseTextView
-        android:id="@+id/hello"
+        android:id="@+id/tv_praise_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello_world"
@@ -19,7 +19,7 @@
         />
 
     <com.example.abner.textviewselector.CommentTextView
-        android:id="@+id/hello1"
+        android:id="@+id/tv_comment_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello_world"
@@ -29,7 +29,7 @@
         />
 
     <com.example.abner.textviewselector.CommentTextView
-        android:id="@+id/hello2"
+        android:id="@+id/tv_comment_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello_world"
@@ -39,27 +39,12 @@
         />
 
     <com.example.abner.textviewselector.TopicTextView
-        android:id="@+id/hello3"
+        android:id="@+id/tv_topic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black_666666"
         android:textSize="14sp"
         />
 
-    <TextView
-        android:id="@+id/hello4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black_666666"
-        android:layout_below="@id/hello3"
-        android:textSize="13sp"
-        android:text="12312312312312"
-        />
-    <TextView
-        android:layout_below="@id/hello4"
-        android:layout_alignLeft="@id/hello4"
-        android:text="adasd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
-</RelativeLayout>
+</LinearLayout>

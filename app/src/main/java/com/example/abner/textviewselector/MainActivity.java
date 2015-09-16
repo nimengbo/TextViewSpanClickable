@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PraiseTextView textView = (PraiseTextView) findViewById(R.id.hello);
+        PraiseTextView textView = (PraiseTextView) findViewById(R.id.tv_praise_test);
 
         likeUsers = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
@@ -49,28 +49,37 @@ public class MainActivity extends Activity {
             model.setReviewContent("回复回复回复回复回复回复回复回复回复回复回复回复回复回复回复回复回复回复回复" + i);
             commentList.add(model);
         }
-        CommentTextView textView1 = (CommentTextView) findViewById(R.id.hello1);
-        CommentTextView textView2 = (CommentTextView) findViewById(R.id.hello2);
-        TopicTextView textView3 = (TopicTextView) findViewById(R.id.hello3);
-        final TextView textView4 = (TextView) findViewById(R.id.hello4);
-        textView1.setReply(commentList.get(0));
-        textView2.setReply(commentList.get(1));
-        textView2.setListener(new TextBlankClickListener() {
+        CommentTextView tv_comment_test = (CommentTextView) findViewById(R.id.tv_comment_test);
+        CommentTextView tv_comment_reply = (CommentTextView) findViewById(R.id.tv_comment_reply);
+        TopicTextView tv_topic = (TopicTextView) findViewById(R.id.tv_topic);
+        tv_comment_test.setReply(commentList.get(0));
+        tv_comment_reply.setReply(commentList.get(1));
+        tv_comment_test.setListener(new TextBlankClickListener() {
             @Override
             public void onBlankClick(View v) {
-                Toast.makeText(MainActivity.this, "textview2点击了整个", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "tv_comment_test点击了整个", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongClick(View view) {
-                Toast.makeText(MainActivity.this, "textview2长按了整个", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "tv_comment_test长按了整个", Toast.LENGTH_SHORT).show();
             }
         });
-        textView3.setPraiseName(likeUsers);
-        textView3.setListener(new TextBlankClickListener() {
+        tv_comment_reply.setListener(new TextBlankClickListener() {
             @Override
             public void onBlankClick(View v) {
-                Toast.makeText(MainActivity.this, "textview3点击了整个", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "tv_comment_reply点击了整个", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view) {
+                Toast.makeText(MainActivity.this, "tv_comment_reply长按了整个", Toast.LENGTH_SHORT).show();
+            }
+        });
+        tv_topic.setListener(new TextBlankClickListener() {
+            @Override
+            public void onBlankClick(View v) {
+                Toast.makeText(MainActivity.this, "tv_topic点击了整个", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -78,13 +87,14 @@ public class MainActivity extends Activity {
 
             }
         });
-
-        android.os.Handler handler = new android.os.Handler();
-        handler.postDelayed(new Runnable() {
+        tv_topic.setTextTopicClickListener(new TextTopicClickListener() {
             @Override
-            public void run() {
-                textView4.setVisibility(View.GONE);
+            public void onTopicClick(View view, String topic) {
+                Toast.makeText(MainActivity.this, topic, Toast.LENGTH_SHORT).show();
             }
-        },1000);
+        });
+        //先设置监听再设置文字
+        tv_topic.setTopics(likeUsers);
+
     }
 }

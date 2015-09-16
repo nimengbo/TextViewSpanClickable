@@ -18,11 +18,13 @@ public class TopicSpan extends ClickableSpan {
     private String topic;
     private StyleSpan boldSpan;
     private Resources resources;
+    private TextTopicClickListener topicClickListener;
 
 
-    public TopicSpan(String topic,Resources resources) {
+    public TopicSpan(String topic,Resources resources,TextTopicClickListener listener) {
         this.topic = topic;
         this.resources = resources;
+        topicClickListener = listener;
     }
 
     @Override
@@ -36,5 +38,8 @@ public class TopicSpan extends ClickableSpan {
     @Override
     public void onClick(View widget) {
         Log.d("click",topic);
+        if(topicClickListener != null){
+            topicClickListener.onTopicClick(widget,topic);
+        }
     }
 }

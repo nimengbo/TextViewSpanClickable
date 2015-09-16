@@ -34,6 +34,12 @@ public class TopicTextView extends TextView {
     private StyleSpan boldSpan;
     private ForegroundColorSpan colorSpan;
 
+    private TextTopicClickListener textTopicClickListener;
+
+    public void setTextTopicClickListener(TextTopicClickListener textTopicClickListener) {
+        this.textTopicClickListener = textTopicClickListener;
+    }
+
     public TopicTextView(Context context) {
         super(context);
         mContext = context;
@@ -105,7 +111,7 @@ public class TopicTextView extends TextView {
         } else if (action == MotionEvent.ACTION_MOVE) {
             float distanceX = Math.abs(lastX - event.getX());
             float distanceY = Math.abs(lastY - event.getY());
-            if (distanceX > 0.5f || distanceY > 0.5f) {
+            if (distanceX > 1.5f || distanceY > 1.5f) {
                 isMove = true;
                 return result;
             }
@@ -178,21 +184,21 @@ public class TopicTextView extends TextView {
     /**
      * 设置点赞的名字
      *
-     * @param names
+     * @param topics
      * @return
      */
-    public void setPraiseName(List<String> names) {
+    public void setTopics(List<String> topics) {
         setText("");
-        int length = names.size();
+        int length = topics.size();
         for (int i = 0; i < length; i++) {
             String topic;
             if (i == length - 1) {
-                topic = "#" + names.get(i);
+                topic = "#" + topics.get(i);
             } else {
-                topic = "#" + names.get(i) + "、";
+                topic = "#" + topics.get(i) + "、";
             }
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(topic);
-            TopicSpan topicSpan = new TopicSpan(topic, getResources());
+            TopicSpan topicSpan = new TopicSpan(topic, getResources(),textTopicClickListener);
             spannableStringBuilder.setSpan(topicSpan, 0, topic.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             append(spannableStringBuilder);
         }

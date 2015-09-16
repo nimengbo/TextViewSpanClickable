@@ -136,7 +136,7 @@ public class CommentTextView extends TextView {
         } else if (action == MotionEvent.ACTION_MOVE) {
             float distanceX = Math.abs(lastX - event.getX());
             float distanceY = Math.abs(lastY - event.getY());
-            if (distanceX > 0.5f || distanceY > 0.5f) {
+            if (distanceX > 1.5f || distanceY > 1.5f) {
                 isMove = true;
                 return result;
             }
@@ -196,7 +196,6 @@ public class CommentTextView extends TextView {
                     handler.removeCallbacks(countDownRunnable);//移除统计
                     if (listener != null && !isMove) {
                         listener.onBlankClick(this);
-                        Log.d("IndexFragment", "onBlankClick");
                     }
                 }
             }
