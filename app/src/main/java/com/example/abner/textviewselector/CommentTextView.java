@@ -109,7 +109,7 @@ public class CommentTextView extends TextView {
             leftTime--;
             if (leftTime == -1) {
                 // 触发长按事件
-                if(listener != null){
+                if(listener != null && !isMove){
                     listener.onLongClick(instance);
                 }
             } else {
@@ -138,10 +138,9 @@ public class CommentTextView extends TextView {
             float distanceY = Math.abs(lastY - event.getY());
             if (distanceX > 1.5f || distanceY > 1.5f) {
                 isMove = true;
-                return result;
+//                return result;
             }
         }
-
         x -= getTotalPaddingLeft();
         y -= getTotalPaddingTop();
 
@@ -198,9 +197,13 @@ public class CommentTextView extends TextView {
                         listener.onBlankClick(this);
                     }
                 }
+            } else if (action == MotionEvent.ACTION_MOVE) {
+                if (isMove) {
+                    setBackgroundColor(Color.TRANSPARENT);
+                }
             }
             Selection.removeSelection(buffer);
-            return false;
+            return result;
         }
     }
 

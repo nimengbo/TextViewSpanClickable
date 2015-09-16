@@ -84,7 +84,7 @@ public class TopicTextView extends TextView {
             leftTime--;
             if (leftTime == -1) {
                 // 触发长按事件
-                if(listener != null){
+                if (listener != null) {
                     listener.onLongClick(instance);
                 }
             } else {
@@ -96,6 +96,9 @@ public class TopicTextView extends TextView {
     private boolean isMove = false;
     private float lastX;
     private float lastY;
+    private int originalStart = -1;
+    private int originalEnd = -1;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean result = super.onTouchEvent(event);
@@ -113,7 +116,6 @@ public class TopicTextView extends TextView {
             float distanceY = Math.abs(lastY - event.getY());
             if (distanceX > 1.5f || distanceY > 1.5f) {
                 isMove = true;
-                return result;
             }
         }
 
@@ -147,6 +149,15 @@ public class TopicTextView extends TextView {
                     mStart = -1;
                     mEnd = -1;
                 }
+            } else if (action == MotionEvent.ACTION_MOVE) {
+                if (isMove) {
+                    if (mStart >= 0 && mEnd >= mStart) {
+                        buffer.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), mStart, mEnd,
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        mStart = -1;
+                        mEnd = -1;
+                    }
+                }
             }
             return true;
         } else {
@@ -171,8 +182,11 @@ public class TopicTextView extends TextView {
                     handler.removeCallbacks(countDownRunnable);//移除统计
                     if (listener != null && !isMove) {
                         listener.onBlankClick(this);
-                        Log.d("IndexFragment", "onBlankClick");
                     }
+                }
+            } else if (action == MotionEvent.ACTION_MOVE) {
+                if (isMove) {
+                    setBackgroundColor(Color.TRANSPARENT);
                 }
             }
             Selection.removeSelection(buffer);
@@ -198,16 +212,16 @@ public class TopicTextView extends TextView {
                 topic = "#" + topics.get(i) + "、";
             }
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(topic);
-            TopicSpan topicSpan = new TopicSpan(topic, getResources(),textTopicClickListener);
+            TopicSpan topicSpan = new TopicSpan(topic, getResources(), textTopicClickListener);
             spannableStringBuilder.setSpan(topicSpan, 0, topic.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             append(spannableStringBuilder);
         }
         String moreStr = "          更多>";
         SpannableString mSpannableString = new SpannableString(moreStr);
         mSpannableString.setSpan(boldSpan
-                , 0,  moreStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //加粗
+                , 0, moreStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //加粗
         mSpannableString.setSpan(colorSpan
-                , 0,  moreStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                , 0, moreStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         append(mSpannableString);
 
     }
